@@ -1,11 +1,17 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, View } from "react-native";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider, Text } from "@ui-kitten/components";
 import mapping from "./mapping.json";
 import { useFonts } from "expo-font";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import LoginPage from "./components/LoginPage";
+import HomePage from "./components/HomePage";
+import BlogPage from "./components/BlogPage";
 
+
+//Creating a stacknavigation to assign routes to component
+const Stack = createStackNavigator();
 const App = () => {
   const [loaded, error] = useFonts({
     Roboto: require("./assets/fonts/Roboto/Roboto.ttf"),
@@ -22,26 +28,16 @@ const App = () => {
       theme={eva.light}
       customMapping={{ ...eva.mapping, ...mapping }}
     >
-      <View style={styles.container}>
-        <Text style={styles.titleText} category="h1">
-          Do you best and enjoy the process!
-        </Text>
-        <StatusBar style="auto" />
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="LoginPage">
+          <Stack.Screen name="LoginPage" component={LoginPage} />
+          <Stack.Screen name="HomePage" component={HomePage} />
+
+          <Stack.Screen name="BlogPage" component={BlogPage} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </ApplicationProvider>
   );
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  titleText: {
-    textAlign: "center",
-  },
-});
